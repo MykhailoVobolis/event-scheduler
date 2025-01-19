@@ -1,0 +1,28 @@
+.paginationBar {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.prevBtn,
+.nextButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.prevBtn:disabled,
+.nextButton:disabled {
+  background-color: #c0c0c0;
+  cursor: not-allowed;
+}
+
+.prevBtn:hover:not(:disabled),
+.nextButton:hover:not(:disabled) {
+  background-color: #0056b3;
+}

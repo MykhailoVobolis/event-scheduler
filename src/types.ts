@@ -10,6 +10,8 @@ export interface Event {
 
 export interface EventState {
   events: Event[];
+  currentPage: number;
+  itemsPerPage: number;
 }
 
 export interface FilterState {

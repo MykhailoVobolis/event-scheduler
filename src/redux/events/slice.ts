@@ -3,6 +3,8 @@ import { Event, EventState } from "../../types";
 
 const initialState: EventState = {
   events: [],
+  currentPage: 1,
+  itemsPerPage: 2,
 };
 
 const eventsSlice = createSlice({
@@ -22,8 +24,11 @@ const eventsSlice = createSlice({
     deleteEvent: (state, action: PayloadAction<string>) => {
       state.events = state.events.filter((event) => event.id !== action.payload);
     },
+    setPage(state, action: PayloadAction<number>) {
+      state.currentPage = action.payload;
+    },
   },
 });
 
 export const eventsReducer = eventsSlice.reducer;
-export const { addEvent, editEvent, deleteEvent } = eventsSlice.actions;
+export const { addEvent, editEvent, deleteEvent, setPage } = eventsSlice.actions;
