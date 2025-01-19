@@ -10,6 +10,7 @@ export interface Event {
 
 export interface EventState {
   events: Event[];
+  currentEvent: Event | null;
   currentPage: number;
   itemsPerPage: number;
 }

@@ -4,6 +4,8 @@ import { RootState } from "../store";
 
 export const selectEvents = (state: RootState) => state.events.events;
 
+export const selectCurrentEvent = (state: RootState) => state.events.currentEvent;
+
 export const selectCurrentPage = (state: RootState) => state.events.currentPage;
 
 export const selectItemsPerPage = (state: RootState) => state.events.itemsPerPage;

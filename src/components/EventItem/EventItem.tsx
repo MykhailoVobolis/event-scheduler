@@ -1,6 +1,6 @@
 import { Event } from "../../types";
 import { useDispatch } from "react-redux";
-import { deleteEvent, editEvent } from "../../redux/events/slice";
+import { addCurrentEvent, deleteEvent } from "../../redux/events/slice";
 
 import css from "./EventItem.module.css";
 
@@ -16,8 +16,7 @@ export default function EventItem({ event }: EventItemProps) {
   };
 
   const handleEdit = (event: Event) => {
-    dispatch(editEvent(event));
-    // Логіка редагування події
+    dispatch(addCurrentEvent(event));
   };
 
   return (
