@@ -31,18 +31,18 @@ export default function EventForm() {
   const handleSubmit = (values: Event, actions: { resetForm: () => void }) => {
     const eventToSave = currentEvent ? values : { ...values, id: nanoid() };
 
-    if (checkEventConflict(eventToSave, events)) {
+    if (checkEventConflict(eventToSave, events, currentEvent?.id)) {
       alert("An event is already scheduled for this time. Please choose another time.");
       return;
     }
 
     if (currentEvent) {
       dispatch(editEvent(values));
-      dispatch(addCurrentEvent(null));
     } else {
       dispatch(addEvent(eventToSave));
     }
 
+    dispatch(addCurrentEvent(null));
     actions.resetForm();
   };
 
