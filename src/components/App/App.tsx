@@ -13,7 +13,7 @@ export default function App() {
 
   return (
     <Layout>
-      <h1>Event Scheduler</h1>
+      <h1>Event Scheduler App</h1>
       <div className={css.container}>
         <EventForm />
         <div>
