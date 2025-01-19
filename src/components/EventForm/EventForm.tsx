@@ -38,11 +38,11 @@ export default function EventForm() {
 
     if (currentEvent) {
       dispatch(editEvent(values));
+      dispatch(addCurrentEvent(null));
     } else {
       dispatch(addEvent(eventToSave));
     }
 
-    dispatch(addCurrentEvent(null));
     actions.resetForm();
   };
 
