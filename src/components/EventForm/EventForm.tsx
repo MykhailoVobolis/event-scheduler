@@ -1,16 +1,27 @@
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
 import { Event } from "../../types";
 import { nanoid } from "@reduxjs/toolkit";
+import { checkEventConflict } from "../../utils/checkEventConflict";
 import { validationSchema } from "../../utils/validationSchemas";
+import { useDispatch, useSelector } from "react-redux";
+import { addEvent } from "../../redux/events/slice";
+import { selectEvents } from "../../redux/events/selectors";
+import InputField from "../InputField/InputField";
+import SelectField from "../SelectField/SelectField";
+import TextAreaField from "../TextAreaField/TextAreaField";
 
 import css from "./EventForm.module.css";
 
 export default function EventForm() {
+  const dispatch = useDispatch();
+  const events = useSelector(selectEvents);
+
   const initialValues: Event = {
     id: "",
     title: "",
     date: "",
-    time: "",
+    startTime: "",
+    endTime: "",
     category: "",
     description: "",
   };
@@ -18,44 +29,28 @@ export default function EventForm() {
   const handleSubmit = (values: Event, actions: { resetForm: () => void }) => {
     const event = { ...values, id: nanoid() };
 
-    console.log("Submitted Event:", event);
+    if (checkEventConflict(event, events)) {
+      alert("An event is already scheduled for this time. Please choose another time.");
+      return;
+    }
+
+    dispatch(addEvent(event));
+
     actions.resetForm();
   };
 
   return (
     <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
-      <Form>
-        <div>
-          <label htmlFor="title">Title:</label>
-          <Field id="title" name="title" placeholder="Название" />
-          <ErrorMessage className={css.error} name="title" component="span" />
-        </div>
-        <div>
-          <label htmlFor="date">Date:</label>
-          <Field id="date" name="date" type="date" />
-          <ErrorMessage className={css.error} name="date" component="span" />
-        </div>
-        <div>
-          <label htmlFor="time">Time:</label>
-          <Field id="time" name="time" type="time" />
-          <ErrorMessage className={css.error} name="time" component="span" />
-        </div>
-        <div>
-          <label htmlFor="category">Category:</label>
-          <Field as="select" id="category" name="category">
-            <option value="">Select category</option>
-            <option value="Work">Work</option>
-            <option value="Personal">Personal</option>
-            <option value="Education">Education</option>
-          </Field>
-          <ErrorMessage className={css.error} name="category" component="span" />
-        </div>
-        <div>
-          <label htmlFor="description">Description:</label>
-          <Field id="description" name="description" as="textarea" placeholder="Описание" />
-          <ErrorMessage className={css.error} name="description" component="span" />
-        </div>
-        <button type="submit">Save</button>
+      <Form className={css.form}>
+        <InputField id="title" name="title" type="text" label="Title" placeholder="Title" />
+        <InputField id="date" name="date" type="date" label="Date" />
+        <InputField id="startTime" name="startTime" type="time" label="Start Time" />
+        <InputField id="endTime" name="endTime" type="time" label="End Time" />
+        <SelectField id="category" name="category" label="Category" />
+        <TextAreaField id="description" name="description" label="Description" placeholder="Description" />
+        <button className={css.button} type="submit">
+          Save Event
+        </button>
       </Form>
     </Formik>
   );
